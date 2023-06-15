@@ -29,4 +29,11 @@
   div {
     text-align: center;
   }
+  button {
+    background-color: rgba(255, 157, 211, 0.911);
+    border: none;
+    margin: 1vw;
+    min-width: 10vw;
+    min-height: 5vh;
+  }
 </style>
