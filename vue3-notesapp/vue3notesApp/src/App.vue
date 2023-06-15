@@ -12,7 +12,8 @@
 
   const addNote = () => {
     if(newNote.value.length < 10) {
-      return errorMessage.value = "Note needs to be 10 characters or more"
+      errorMessage.value = "Note needs to be 10 characters or more";
+      return
     }
     notes.value.push({
       id: Math.floor(Math.random() * 1000000),
@@ -21,7 +22,8 @@
       backgroundColor: getRandomColor()
     });
     showModal.value = false;
-    newNote.value = ""
+    newNote.value = "";
+    errorMessage.value = "";
   }
 </script>
 
@@ -29,10 +31,11 @@
   <main>
     <div v-if="showModal" class="overlay">
       <div class="modal">
+        <span @click="showModal = false" class="close"></span>
         <textarea v-model.trim="newNote" name="note" id="note" cols="30" rows="10"></textarea>
         <p v-if="errorMessage">{{ errorMessage }}</p>
         <button @click="addNote">Add note</button>
-        <button @click="showModal = false" class="close">Close</button>
+        
       </div>
     </div>
     <div class="container">
@@ -74,6 +77,7 @@
     font-weight: bold;
     margin-bottom: 25px;
     font-size: 65px;
+    color: white;
   }
   header button {
     border: none;
@@ -152,9 +156,34 @@
     font-size: 20px;
   }
   .modal .close {
-    background-color: rgb(190, 5, 5);
-    margin-top: 7px;
+    cursor: pointer;
   }
+  .close:after, .close:before {
+    content: "";
+    height: 20px;
+    width: 20px;
+    border-top: 1px solid rgb(190, 5, 5);
+    position: absolute;
+    top: 7px;
+    right: -8px;
+    margin: 5px 5px;
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+  }
+  .close:before {
+    right: 6px;
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+  .close:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+    opacity: 0.3;
+  }
+  
   .modal p {
     color: rgb(190, 5, 5);
     font-size: 14px;
