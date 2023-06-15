@@ -13,7 +13,7 @@
   const addNote = () => {
     if(newNote.value.length < 10) {
       errorMessage.value = "Note needs to be 10 characters or more";
-      return
+      return;
     }
     notes.value.push({
       id: Math.floor(Math.random() * 1000000),
@@ -132,9 +132,9 @@
   }
   .modal {
     width: 750px;
-    background-color: white;
+    background-color: transparent;
     border-radius: 10px;
-    padding: 30px;
+    padding: 20px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -157,6 +157,7 @@
   }
   .modal .close {
     cursor: pointer;
+    padding: 2px;
   }
   .close:after, .close:before {
     content: "";
@@ -166,7 +167,6 @@
     position: absolute;
     top: 7px;
     right: -8px;
-    margin: 5px 5px;
     -moz-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
@@ -180,12 +180,12 @@
     transform: rotate(45deg);
   }
   .close:hover {
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
-    opacity: 0.3;
+    opacity: 0.7;
   }
   
   .modal p {
-    color: rgb(190, 5, 5);
+    color: rgb(230, 13, 13);
     font-size: 14px;
+    font-weight: bold;
   }
 </style>
