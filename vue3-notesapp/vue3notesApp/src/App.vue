@@ -2,14 +2,36 @@
   import {ref} from "vue";
 
   const showModal = ref(false);
+  const newNote = ref("");
+  const errorMessage = ref("");
+  const notes = ref([]);
+
+  function getRandomColor(){
+    return "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+  }
+
+  const addNote = () => {
+    if(newNote.value.length < 10) {
+      return errorMessage.value = "Note needs to be 10 characters or more"
+    }
+    notes.value.push({
+      id: Math.floor(Math.random() * 1000000),
+      text: newNote.value,
+      date: new Date(),
+      backgroundColor: getRandomColor()
+    });
+    showModal.value = false;
+    newNote.value = ""
+  }
 </script>
 
 <template>
   <main>
     <div v-if="showModal" class="overlay">
       <div class="modal">
-        <textarea name="note" id="note" cols="30" rows="10"></textarea>
-        <button>Add note</button>
+        <textarea v-model.trim="newNote" name="note" id="note" cols="30" rows="10"></textarea>
+        <p v-if="errorMessage">{{ errorMessage }}</p>
+        <button @click="addNote">Add note</button>
         <button @click="showModal = false" class="close">Close</button>
       </div>
     </div>
@@ -19,9 +41,14 @@
         <button @click="showModal = true">+</button>
       </header>
       <div class="cards-container">
-        <div class="card">
-          <p class="main-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi esse delectus voluptate? Assumenda magnam illum hic!</p>
-          <p class="date">14/06/23</p>
+        <div 
+          v-for="note in notes" 
+          :key="note.id"
+          class="card" 
+          :style="{backgroundColor: note.backgroundColor}"
+        >
+          <p class="main-text">{{ note.text }}</p>
+          <p class="date">{{ note.date.toLocaleDateString("pt-BR") }}</p>
         </div>
       </div>
     </div>
@@ -75,11 +102,11 @@
     color: black;
     font-size: 14px;
     line-height: 1.25;
+    font-weight: bold;
   }
   .date {
     font-size: 12px;
-    font-weight: bold;
-    color: rgb(199, 199, 199);
+    color: rgb(66, 66, 66);
     margin-top: auto;
   }
   .cards-container {
@@ -118,12 +145,6 @@
     cursor: pointer;
     margin-top: 15px;
   }
-  .modal p {
-    margin-left: auto;
-    font-size: 20px;
-    z-index: 100000;
-    cursor: pointer;
-  }
   textarea {
     width: 100%;
     height: 200px;
@@ -133,5 +154,9 @@
   .modal .close {
     background-color: rgb(190, 5, 5);
     margin-top: 7px;
+  }
+  .modal p {
+    color: rgb(190, 5, 5);
+    font-size: 14px;
   }
 </style>
